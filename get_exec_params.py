@@ -13,7 +13,6 @@ def inspect_image(docker_image):
         print(f'ERROR: {stderr}')
         sys.exit(1)
     data = json.loads(stdout)
-    #print(f'DATA: {json.dumps(data, indent=4)}')
     return data
 
 def print_exec_params(docker_data):
