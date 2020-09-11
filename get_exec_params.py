@@ -2,7 +2,6 @@
 import sys
 import logging
 import json
-import subprocess
 import docker
 
 
