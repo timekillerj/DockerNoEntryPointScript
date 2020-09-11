@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+import logging
 import json
 import subprocess
 
@@ -10,9 +11,14 @@ def inspect_image(docker_image):
                 stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
     if stderr:
-        print(f'ERROR: {stderr}')
+        logging.error(f'ERROR: {stderr}')
         sys.exit(1)
-    data = json.loads(stdout)
+    try:
+        data = json.loads(stdout)
+    except json.decoder.JSONDecodeError as e:
+        logging.error(f'Error decoding output: {e}')
+        logging.error(f'STDOUT was: {stdout}')
+        sys.exit(1)
     return data
 
 def print_exec_params(docker_data):
