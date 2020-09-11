@@ -10,10 +10,9 @@ This script assumes `docker` is installed and in the `PATH` and that the image b
 # Usage
 `python get_exec_params.py [Docker Image]`
 
-# Output Example:
-`python get_exec_params.py timekillerj/twistlock-fargate`
-
+# Example:
 ```
+$ python get_exec_params.py timekillerj/twistlock-fargate
 {
     "EntryPoint": [
         "/bin/sh",
