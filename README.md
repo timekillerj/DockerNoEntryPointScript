@@ -5,7 +5,13 @@ This is a proof of concept script to be used to build a CI/CD pipeline action to
 When creating Fargate Tasks, it is sometimes necessary to explicitly add a EntryPoint. Though not all Dockerfile files list an EntryPoint, all docker images do in fact have one. Docker uses the default `/bin/sh -c` when no `ENTRYPOINT` is given.
 
 # Requirements
-This script assumes `docker` is installed and in the `PATH` and that the image being passed is already on the system, as it would be as part of a build pipeline.
+The `docker` python library must be installed
+
+```
+pip install -r requirements.txt
+```
+
+This script assumes that the image being passed is already on the system, as it would be as part of a build pipeline.
 
 # Usage
 `python get_exec_params.py [Docker Image]`

@@ -3,30 +3,24 @@ import sys
 import logging
 import json
 import subprocess
+import docker
 
 
 def inspect_image(docker_image):
-    out = subprocess.Popen(["docker", "inspect", docker_image],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
-    if stderr:
-        logging.error(f'ERROR: {stderr}')
-        sys.exit(1)
+    client = docker.APIClient()
     try:
-        data = json.loads(stdout)
-    except json.decoder.JSONDecodeError as e:
-        logging.error(f'Error decoding output: {e}')
-        logging.error(f'STDOUT was: {stdout}')
+        data = client.inspect_image(docker_image)
+    except docker.errors.ImageNotFound:
+        logging.error(f'ERROR: Image on found locally. Try `docker pull {docker_image}`')
         sys.exit(1)
     return data
 
 def print_exec_params(docker_data):
-    if not docker_data[0].get("Config", {}).get("Entrypoint"):
+    if not docker_data.get("Config", {}).get("Entrypoint"):
         entrypoint = ["/bin/sh", "-c"]
     else:
-        entrypoint = docker_data[0].get("Config", {}).get("Entrypoint")
-    cmd = docker_data[0].get("Config", {}).get("Cmd")
+        entrypoint = docker_data.get("Config", {}).get("Entrypoint")
+    cmd = docker_data.get("Config", {}).get("Cmd")
 
     exec_params = {
         "EntryPoint": entrypoint,
