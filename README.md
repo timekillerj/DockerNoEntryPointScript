@@ -1,8 +1,8 @@
 # About
-This is a proof of concept script to be used to build a CI/CD pipeline action to derive the Entrypoint and CMD of a given docker image. If no Entrypoint is specified then the default `/bin/sh -c` is used.
+This is some proof of concept code to be used to build a CI/CD pipeline action to derive the Entrypoint and CMD of a given docker image. If no Entrypoint is found either `/bin/sh -c` or the CMD output is used, depending on the script.
 
 # Why?
-When creating Fargate Tasks, it is sometimes necessary to explicitly add a EntryPoint. Though not all Dockerfile files list an EntryPoint, all docker images do in fact have one. Docker uses the default `/bin/sh -c` when no `ENTRYPOINT` is given.
+When creating Fargate Tasks, it is sometimes necessary to explicitly add a EntryPoint. This code offers two solutions: Use `/bin/sh -c` or use the CMD output.
 
 # Requirements
 The `docker` python library must be installed
@@ -14,7 +14,7 @@ pip install -r requirements.txt
 This script assumes that the image being passed is already on the system, as it would be as part of a build pipeline.
 
 # Usage
-`python get_exec_params.py [Docker Image]`
+`python fargate_use_sh_for_entry.py [Docker Image]`
 
 # Example:
 ```
