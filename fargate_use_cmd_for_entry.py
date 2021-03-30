@@ -23,8 +23,8 @@ def print_exec_params(docker_data):
         cmd = docker_data.get("Config", {}).get("Cmd")
 
     exec_params = {
-        "EntryPoint": entrypoint,
-        "Command": cmd
+        "entryPoint": entrypoint,
+        "command": cmd
     }
     print(json.dumps(exec_params, indent=4))
 
